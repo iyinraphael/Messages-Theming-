@@ -1,5 +1,5 @@
 //
-//  MessageListViewController.swift
+ //  MessageListViewController.swift
 //  UIAppearanceAndAnimation
 //
 //  Created by Spencer Curtis on 8/20/18.
@@ -12,6 +12,7 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.tableHeaderView?.backgroundColor = Appearance.backgroundGray
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -19,6 +20,7 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
         NotificationCenter.default.addObserver(self, selector: #selector(sortMessageArray), name: messagesWereUpdatedNotification, object: nil)
         
         messageController.fetchMessages()
+        styleNewMessageButton()
     }
     
     @objc private func sortMessageArray() {
@@ -50,9 +52,21 @@ class MessageListViewController: UIViewController, UITableViewDelegate, UITableV
         cell.textLabel?.text = message.text
         cell.detailTextLabel?.text = message.sender
         
+        style(cell: cell)
         return cell
     }
 
+    private func style(cell: UITableViewCell) {
+        cell.textLabel?.font = Appearance.applicationFont(with: .caption1, pointSize: 30)
+        cell.detailTextLabel?.font = Appearance.applicationFont(with: .caption2, pointSize: 25)
+    }
+    
+    private func styleNewMessageButton() {
+        newMessageButton.backgroundColor = Appearance.lambdaRed
+        let cornerRadius = max(newMessageButton.frame.width, newMessageButton.frame.height) / 2.0
+        newMessageButton.layer.cornerRadius = cornerRadius
+    }
+    
     let messageController = MessageController()
     
     private let dateFormatter: DateFormatter = {
