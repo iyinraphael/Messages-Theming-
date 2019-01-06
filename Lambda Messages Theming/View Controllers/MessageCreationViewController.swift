@@ -12,8 +12,9 @@ class MessageCreationViewController: UIViewController, UINavigationBarDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = Appearance.backgroundGray
         navigationBar.delegate = self
+        style()
     }
     
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -38,6 +39,25 @@ class MessageCreationViewController: UIViewController, UINavigationBarDelegate {
     
     @IBAction func discardMessage(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    func style(){
+        messageTextView.backgroundColor = Appearance.backgroundGray
+        messageTextView.textColor = .white
+        
+        let cornerRadiusTextButton = max(clearTextButton.frame.width, clearTextButton.frame.height) / 12.0
+        let cornerRadiusMessageButton = max(sendMessageButton.frame.width, sendMessageButton.frame.height) / 12.0
+        
+        clearTextButton.backgroundColor = Appearance.lambdaRed
+        sendMessageButton.backgroundColor = Appearance.lambdaRed
+        
+        clearTextButton.layer.cornerRadius = cornerRadiusTextButton
+        sendMessageButton.layer.cornerRadius = cornerRadiusMessageButton
+        
+        sendMessageButton.setTitleColor(.white, for: .normal)
+        clearTextButton.setTitleColor(.white, for: .normal)
+        
+        
     }
     
     var messageController: MessageController?
